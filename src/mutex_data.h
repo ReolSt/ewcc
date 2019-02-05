@@ -18,7 +18,7 @@ public:
     inline std::thread::native_handle_type native_handle() {
         return _mutex.native_handle();
     }
-    void access(std::function<void ()> func) {
+    inline void access(std::function<void ()> func) {
         lock();
         func();
         unlock();

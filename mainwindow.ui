@@ -96,6 +96,16 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="3">
+     <widget class="QPushButton" name="sendButton">
+      <property name="text">
+       <string>Send</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="3">
+     <widget class="QLineEdit" name="chatEdit"/>
+    </item>
    </layout>
   </widget>
  </widget>

@@ -802,6 +802,10 @@ int IRC::privmsg(const char * target, const char * message)
 	if (!connected)
 		return 1;
 	fprintf(dataout, "PRIVMSG %s :%s\r\n", target, message);
+    std::string msg = current_nick();
+    msg +=": ";
+    msg += message;
+    insert_to_buffer(msg);
 	return fflush(dataout);
 }
 

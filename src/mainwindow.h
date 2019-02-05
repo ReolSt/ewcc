@@ -27,6 +27,8 @@ private slots:
     void on_joinButton_clicked();
     void on_closeButton_clicked();
 
+    void on_sendButton_clicked();
+
 private:
     void set_timer(uint ms);
     Ui::MainWindow *ui;

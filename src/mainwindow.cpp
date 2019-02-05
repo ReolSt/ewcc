@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QTimer>
 #include <QPixmap>
-#include <QListWidget>
+#include <QTextBrowser>
 #include <QScrollBar>
 #include <QFont>
 #include <iostream>
@@ -37,32 +37,31 @@ void MainWindow::on_timer() {
      mutex_irc_context_list.access([&]() {
          int icl_size = irc_context_list.size();
          for(int i=0;i<icl_size;i++) {
-             QListWidget *lw=(QListWidget*)ui->ircTabWidget->widget(i);
+             QTextBrowser *tb=(QTextBrowser*)ui->ircTabWidget->widget(i);
              irc_context_list[i]->access([&]() {
                  auto &ic = irc_context_list[i]->data();
                  for(auto &i : ic->output_buffer()) {
-                     lw->addItem(QString::fromUtf8(i.c_str()));
+                     QString html_str =
+                             "<img src=':/img/twitch_icon.png' width='16' height='16'>" +
+                             QString::fromUtf8(i.c_str()) + "<br>";
+                     tb->append(html_str);
                  }
                  ic->clear_buffer();
              });
-             QScrollBar *vb = lw->verticalScrollBar();
-             if(vb->value()==vb->maximum()) {
-                 lw->scrollToBottom();
-             }
          }
      });
 }
 
 void MainWindow::on_joinButton_clicked()
 {
-    QString channel="#" + ui->channelEdit->text();    
+    QString channel="#" + ui->channelEdit->text();
     auto &irc_context_list = mutex_irc_context_list.list();
     auto *ic = new IRC_Context(channel.toStdString());
     ic->create_thread();
     mutex_irc_context_list.access([&]() {
         irc_context_list.push_back(new MutexData<IRC_Context*>(ic));
     });
-    QWidget *newtab = new QListWidget();    
+    QWidget *newtab = new QTextBrowser();
     newtab->setFont(QFont("Noto Sans",12));
     ui->ircTabWidget->addTab(newtab,channel);
     ui->ircTabWidget->setTabText(ui->ircTabWidget->count()-1,channel);
@@ -84,3 +83,16 @@ void MainWindow::on_closeButton_clicked()
     ui->ircTabWidget->removeTab(ci);
 }
 
+#include <sstream>
+void MainWindow::on_sendButton_clicked()
+{
+    int ci=ui->ircTabWidget->currentIndex();
+    QString channel = ui->ircTabWidget->tabText(ci);
+    QString text = ui->chatEdit->text();
+    auto *mutex_irc_context = mutex_irc_context_list.list()[ci];
+    mutex_irc_context->access([&]() {        
+        mutex_irc_context->data()->privmsg(channel.toUtf8().data(),
+                                           text.toUtf8().data());
+    });    
+    ui->chatEdit->clear();
+}
