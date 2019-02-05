@@ -24,21 +24,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    IRC.cpp \
-    user_info.cpp \
-    IRC_context.cpp \
-    mutex_list.cpp \
-    mutex_data.cpp
+        src/main.cpp \
+        src/mainwindow.cpp \
+    src/IRC.cpp \
+    src/user_info.cpp \
+    src/IRC_context.cpp \
+    src/mutex_list.cpp \
+    src/mutex_data.cpp
 
 HEADERS += \
-        mainwindow.h \
-    IRC.h \
-    user_info.h \
-    IRC_context.h \
-    mutex_list.h \
-    mutex_data.h
+        src/mainwindow.h \
+    src/IRC.h \
+    src/user_info.h \
+    src/IRC_context.h \
+    src/mutex_list.h \
+    src/mutex_data.h
 
 FORMS += \
         mainwindow.ui
