@@ -34,13 +34,13 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <deque>
-#include <string>
-#include <boost/format.hpp>
 #define closesocket(s) close(s)
 #define SOCKET_ERROR -1
 #define INVALID_SOCKET -1
 #endif
+#include <deque>
+#include <string>
+#include <boost/format.hpp>
 #define BUFFER_SIZE 256
 #define SOCK_TIMEOUT_S 3
 #define SOCK_TIMEOUT_MS 0
@@ -151,7 +151,7 @@ int IRC::start(const char *server, int port, const char *nick, const char *user,
 	
 	if (!dataout /*|| !datain*/)
     {
-        output_buffer.push_back("Failed to open streams!");
+        _obuf.push_back("Failed to open streams!");
 		closesocket(irc_socket);
 		return 1;
 	}
@@ -174,7 +174,7 @@ void IRC::disconnect()
 	if (connected)
 	{
 		fclose(dataout);
-        output_buffer.push_back("Disconnected from server.");
+        _obuf.push_back("Disconnected from server.");
 		connected=false;
 		quit("Leaving");
 		#ifdef WIN32
@@ -298,7 +298,7 @@ int IRC::is_voice(const char *channel, const char *nick)
 
 	return 0;
 }
-std::string str;
+
 void IRC::parse_irc_reply(char *data)
 {
     char *hostd;
@@ -898,9 +898,13 @@ const char * IRC::current_nick()
 
 
 void IRC::insert_to_buffer(const std::string &str) {
-    output_buffer.push_back(str);
+    _obuf.push_back(str);
 }
 
 void IRC::clear_buffer() {
-    output_buffer.clear();
+    _obuf.clear();
+}
+
+const std::deque<std::string>& IRC::output_buffer() {
+    return _obuf;
 }

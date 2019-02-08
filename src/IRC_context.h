@@ -8,6 +8,9 @@
 class IRC_Context {
 public:
     IRC_Context(const std::string &channel);
+    ~IRC_Context() {
+        end_loop();
+    }
     inline bool joinable() {return _irc_thread->joinable();}
     inline void create_thread() {
         _irc_thread=new std::thread([&](){_conn.message_loop(_message_loop_flag);});
@@ -30,7 +33,7 @@ public:
     int is_voice(const char *channel, const char *nick);
     const char * current_nick();
     const auto& output_buffer() {
-        return _conn.output_buffer;
+        return _conn.output_buffer();
     }
     void clear_buffer() {
         _conn.clear_buffer();

@@ -3,8 +3,6 @@
 
 #include <QMainWindow>
 #include <QVector>
-#include <thread>
-#include <vector>
 #include "IRC.h"
 #include "IRC_context.h"
 #include "mutex_data.h"
@@ -26,7 +24,6 @@ private slots:
     void on_timer();
     void on_joinButton_clicked();
     void on_closeButton_clicked();
-
     void on_sendButton_clicked();
 
 private:

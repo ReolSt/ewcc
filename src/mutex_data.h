@@ -11,13 +11,14 @@ public:
     inline MutexData(T data) {
         _data=data;
     }
+    ~MutexData() {}
     inline T &data() {return _data;}
     inline void lock() {_mutex.lock();}
     inline bool try_lock() {return _mutex.try_lock();}
     inline void unlock() {_mutex.unlock();}
     inline std::thread::native_handle_type native_handle() {
         return _mutex.native_handle();
-    }
+    }        
     inline void access(std::function<void ()> func) {
         lock();
         func();
@@ -27,5 +28,4 @@ private:
     std::mutex _mutex;
     T _data;
 };
-
-#endif // MUTEXDATA_H
+#endif

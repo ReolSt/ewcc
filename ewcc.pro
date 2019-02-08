@@ -30,7 +30,8 @@ SOURCES += \
     src/user_info.cpp \
     src/IRC_context.cpp \
     src/mutex_list.cpp \
-    src/mutex_data.cpp
+    src/mutex_data.cpp \
+    src/IRC_STL.cpp
 
 HEADERS += \
         src/mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS += \
     src/user_info.h \
     src/IRC_context.h \
     src/mutex_list.h \
-    src/mutex_data.h
+    src/mutex_data.h \
+    src/IRC_STL.h
 
 FORMS += \
         mainwindow.ui

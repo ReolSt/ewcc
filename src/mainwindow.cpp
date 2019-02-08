@@ -83,7 +83,6 @@ void MainWindow::on_closeButton_clicked()
     ui->ircTabWidget->removeTab(ci);
 }
 
-#include <sstream>
 void MainWindow::on_sendButton_clicked()
 {
     int ci=ui->ircTabWidget->currentIndex();
@@ -94,5 +93,5 @@ void MainWindow::on_sendButton_clicked()
         mutex_irc_context->data()->privmsg(channel.toUtf8().data(),
                                            text.toUtf8().data());
     });    
-    ui->chatEdit->clear();
+    ui->chatEdit->clear();    
 }

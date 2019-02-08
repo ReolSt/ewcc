@@ -90,7 +90,7 @@ public:
     int is_voice(const char *channel, const char *nick);
     const char * current_nick();
     void clear_buffer();
-    std::deque<std::string> output_buffer;
+    const std::deque<std::string>& output_buffer();
 private:
     void call_hook(const char * irc_command, const char *params, irc_reply_data* hostd);
     /*void call_the_hook(irc_command_hook* hook, const char * irc_command, const char *params, irc_host_data* hostd);*/
@@ -108,6 +108,7 @@ private:
 	FILE* datain;
 	channel_user* chan_users;
 	irc_command_hook* hooks;
+    std::deque<std::string> _obuf;
     void insert_to_buffer(const std::string&);
 };
 #endif
